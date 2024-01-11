@@ -2,14 +2,23 @@ import { Button, Container, Form, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import useFetch from "../Hooks/useFetch";
 import { FaUser } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setPosts } from "../Store/Slices/post";
 
 const Posts = () => {
-  const { data: posts, isLoading, setData } = useFetch("/posts");
+  const { data, isLoading } = useFetch("/posts");
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setPosts(data));
+  }, [data, dispatch]);
+
+  const posts = useSelector((store) => store.post.posts);
 
   async function handleCreatePost(e) {
     e.preventDefault();
@@ -19,7 +28,7 @@ const Posts = () => {
     setLoading(true);
     try {
       const { data } = await axios.post("/posts", { text });
-      setData([data, ...posts]);
+      dispatch(setPosts([data, ...posts]));
     } catch (error) {
       console.log(error);
       const errors = error?.response?.data?.errors;
