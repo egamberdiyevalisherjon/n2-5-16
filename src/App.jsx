@@ -11,6 +11,7 @@ import { setUser } from "./Store/Slices/user";
 import PrivateRoute from "./Routes/PrivateRoute";
 import Posts from "./Pages/Posts";
 import Post from "./Pages/Post";
+import Register from "./Pages/Register";
 
 function App() {
   const token = localStorage.getItem(localTokenKey);
@@ -29,7 +30,6 @@ function App() {
           localStorage.removeItem(localTokenKey);
           navigate("login");
         });
-    else navigate("/login");
   }, [token, navigate, dispatch]);
 
   return (
@@ -37,7 +37,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/register" />
+        <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profiles" />
         <Route path="/profile" />
