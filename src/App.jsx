@@ -12,6 +12,7 @@ import PrivateRoute from "./Routes/PrivateRoute";
 import Posts from "./Pages/Posts";
 import Post from "./Pages/Post";
 import Register from "./Pages/Register";
+import Developers from "./Pages/Developers";
 
 function App() {
   const token = localStorage.getItem(localTokenKey);
@@ -39,7 +40,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profiles" />
+        <Route path="/profiles" element={<Developers />} />
         <Route path="/profile" />
         <Route
           path="/dashboard"
