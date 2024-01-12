@@ -66,7 +66,7 @@ const Developers = () => {
                     <p>{profile.location}</p>
                     <Button
                       as={Link}
-                      to={`/profiles/${profile._id}`}
+                      to={`/profiles/${profile.user._id}`}
                       variant="info"
                     >
                       View profile
