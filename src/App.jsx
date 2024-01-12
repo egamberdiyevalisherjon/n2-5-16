@@ -14,6 +14,8 @@ import Post from "./Pages/Post";
 import Register from "./Pages/Register";
 import Developers from "./Pages/Developers";
 import Profile from "./Pages/Profile";
+import EditProfile from "./Pages/EditProfile";
+import { updateProfileInfo } from "./Store/Slices/profile";
 
 function App() {
   const token = localStorage.getItem(localTokenKey);
@@ -21,17 +23,19 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (token)
-      axios
-        .get("/auth")
-        .then(({ data }) => {
-          dispatch(setUser(data));
-        })
-        .catch((error) => {
+    (async function () {
+      if (token) {
+        const { data: user } = await axios.get("/auth").catch((error) => {
+          // toast
           console.log(error);
           localStorage.removeItem(localTokenKey);
           navigate("login");
         });
+        dispatch(setUser(user));
+        const { data: profile } = await axios.get("/profile/me");
+        dispatch(updateProfileInfo(profile));
+      }
+    })();
   }, [token, navigate, dispatch]);
 
   return (
@@ -52,7 +56,14 @@ function App() {
           }
         />
         <Route path="/create-profile" />
-        <Route path="/edit-profile" />
+        <Route
+          path="/edit-profile"
+          element={
+            <PrivateRoute>
+              <EditProfile />
+            </PrivateRoute>
+          }
+        />
         <Route path="/add-exp" />
         <Route path="/add-edu" />
         <Route

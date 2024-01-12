@@ -1,4 +1,5 @@
 import { Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import useFetch from "../Hooks/useFetch";
 
 const Dashboard = () => {
@@ -7,9 +8,13 @@ const Dashboard = () => {
   return isLoading ? (
     <Spinner />
   ) : profile ? (
-    <div>Dashboard</div>
+    <div>
+      Dashboard <Link to="/edit-profile">Edit your profile</Link>
+    </div>
   ) : (
-    <div>create a profile please.</div>
+    <div>
+      <Link to="/create-profile">Create</Link> a profile please.{" "}
+    </div>
   );
 };
 
